@@ -1,0 +1,7 @@
+# -*- mode: ruby -*-
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "centos/7"
+  config.vm.synced_folder "../sample_scripts", "/mnt/sample_scripts"
+  config.vm.provision "shell", path: "provision.sh"
+end
