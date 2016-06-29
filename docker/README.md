@@ -92,13 +92,42 @@ hubotに向けて、pingのメッセージを送ると、PONGとレスポンス�
 
 ## 簡単なスクリプト作成
 
-/home/hubot/bot/scripts配下に、hogehoge.coffeeのようなスクリプトを>設置して、hubotを再起動するとスクリプトが動くようになります。下記のサンプルスクリプトをコピペして設置してみてください。設置後は、hubotの再起動を忘れないように。
+/home/hubot/bot/scripts配下に、hogehoge.coffeeのようなスクリプトを設置して、hubotを再起動するとスクリプトが動くようになります。下記のサンプルスクリプトをコピペして設置してみてください。設置後は、hubotの再起動を忘れないように。
 
 - [スクリプトサンプル](https://github.com/y-sachou/hubot-tutorial/tree/master/sample_scripts)
   - robot.respond : 呼びかけられた時に反応
   - robot.hear : キーワードが引っかかったら反応
   - msg.send : メッセージを出力
   - msg.reply : メッセージを返信
+
+## Chatwork連携
+
+Chatworkと連携するためには、3つの環境変数の設定が必要です。
+
+- HUBOT_CHATWORK_TOKEN : APIトークン
+- HUBOT_CHATWORK_ROOMS : 部屋番号
+- HUBOT_CHATWORK_API_RATE : 1時間あたりのデータ取得回数
+  - 現在、5分100回までという制限あり
+
+- .envファイルを作成して環境変数を読み込む
+  - .envファイルにはトークンが含まれます
+  - 絶対にバージョン管理の対象には含めないでください
+
+```bash
+vagrant $ vi .env
+export HUBOT_CHATWORK_TOKEN=xxxxxxxxxxxxxxxxxxxxxx
+export HUBOT_CHATWORK_ROOMS=xxxxxxxxxx
+export HUBOT_CHATWORK_API_RATE=420
+vagrant $ eval $(cat .env)
+```
+
+chatworkアダプタを指定して、hubotを起動
+
+```bash
+vagrant $ bin/hubot -a chatwork
+```
+
+指定したROOM IDの部屋で、hubot pingという呼び掛けに、PONGが返却されれば成功。
 
 ## ログアウト
 
