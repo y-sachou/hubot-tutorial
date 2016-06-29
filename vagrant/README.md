@@ -31,6 +31,7 @@ centos/7             (virtualbox, 1605.01)
 mac$ cd vagrant
 mac$ vagrant up
 ```
+up時にmount関連でエラーが出てしまう場合は、Vagrantfileのsynced_folderの行を削除して、vagrant destroyしてvagrant upしなおしてみてください。
 
 ## login
 
@@ -42,7 +43,7 @@ mac$ vagrant ssh
 
 ```bash
 vagrant% sudo su hubot
-vagrant$ cd
+vagrant$ cd ~hubot/bot
 vagrant$ bin/hubot
 hubot> hubot ping
 hubot> PONG
