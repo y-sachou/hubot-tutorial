@@ -1,17 +1,18 @@
-# docker
+# Hubot@docker
 
 ## 事前準備
 
-- インストール
+- ツール群のインストール
+  - できるだけ最新のものを使いましょう
 
 ```bash
-$ brew cask install dockertoolbox virtualbox
+mac $ brew cask install dockertoolbox virtualbox
 ```
 
 - docker-machineの作成
 
 ```bash
-$ docker-machine create -d virtualbox default
+mac $ docker-machine create -d virtualbox default
 Creating VirtualBox VM...
 Creating SSH key...
 Starting VirtualBox VM...
@@ -22,7 +23,7 @@ To see how to connect Docker to this machine, run: docker-machine env default
 - 確認
 
 ```bash
-$ docker-machine ls
+mac $ docker-machine ls
 NAME ACTIVE DRIVER STATE URL SWARM
 default virtualbox Running tcp://192.168.99.100:2376
 ```
@@ -30,13 +31,13 @@ default virtualbox Running tcp://192.168.99.100:2376
 - 環境設定
 
 ```bash
-$ eval "$(docker-machine env default)"
+mac $ eval "$(docker-machine env default)"
 ```
 
-- コンテナpull
+- コンテナイメージのpull
 
 ```bash
-$ docker pull centos:7
+mac $ docker pull centos:7
 7: Pulling from library/centos
 1544084fad81: Pull complete
 df0fc3863fbc: Pull complete
@@ -46,54 +47,64 @@ Digest: sha256:a9237ff42b09cc6f610bab60a36df913ef326178a92f3b61631331867178f982
 Status: Downloaded newer image for centos:7
 ```
 
-- コンテナ確認
+- コンテナの確認
 
 ```bash
-$ docker images
+mac $ docker images
 REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE
 centos 7 a65193109361 3 weeks ago 196.8 MB
 ```
 
-## environment
+## コンテナ作成、OS初期設定、Hubotインストール
 
 ```bash
-mac$ eval $(docker-machine env)
+mac $ cd docker
+mac $ docker build -t test/hubot:1.0 .
+mac $ docker images
 ```
 
-## build
+OS初期設定、Hubot関連ツールのインストールは、docker build時に実行しているので、しばらく時間がかかります。
+
+## コンテナ起動とログイン
 
 ```bash
-mac$ cd docker
-mac$ docker build -t test/hubot:1.0 .
-mac$ docker images
-```
-
-## run
-
-```bash
-mac$ docker run -v /Users/syasu/hubot-test/sample_scripts:/mnt/sample_scripts -d -i -t test/hubot:1.0 /bin/bash
-```
-
-## attach
-
-```bash
-mac$ docker ps
+mac $ docker run -v /Users/syasu/hubot-test/sample_scripts:/mnt/sample_scripts -d -i -t test/hubot:1.0 /bin/bash
+mac $ docker ps
 CONTAINER ID        IMAGE               COMMAND ...
 303f18d12af1        test/hubot:1.0      "/bin/bash" ...
-mac$ docker attach 303f18d12af1
+mac $ docker attach 303f18d12af1
 ```
 
-## hubot
+## Hubot起動、動作確認
 
 ```bash
-container$ bin/hubot
+container $ bin/hubot
+```
+
+bin/hubot実行時にいくつか警告やエラーが画面に表示されますが、とりあえず気にしないでよいです。出力停止後、リターンを押すと、hubot>とい>うプロンプトが出てきます。
+
+```bash
 hubot> hubot ping
 hubot> PONG
 ```
 
-## detach
+hubotに向けて、pingのメッセージを送ると、PONGとレスポンスを返してくれれば、起動成功です。
+
+## 簡単なスクリプト作成
+
+/home/hubot/bot/scripts配下に、hogehoge.coffeeのようなスクリプトを>設置して、hubotを再起動するとスクリプトが動くようになります。下記のサンプルスクリプトをコピペして設置してみてください。設置後は、hubotの再起動を忘れないように。
+
+- [スクリプトサンプル](https://github.com/y-sachou/hubot-tutorial/tree/master/sample_scripts)
+  - robot.respond : 呼びかけられた時に反応
+  - robot.hear : キーワードが引っかかったら反応
+  - msg.send : メッセージを出力
+  - msg.reply : メッセージを返信
+
+## ログアウト
+
+/bin/bashを実行するために起動したコンテナ状態のため、exitしてしまうとログインしてからログアウトするまでの作業が消えます。作業結果を残したいときは、detachしてからイメージをコミットしてください。
 
 ```bash
-container$
+container $
 Ctrl-p + Ctrl-q
 ```
