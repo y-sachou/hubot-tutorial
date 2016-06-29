@@ -114,17 +114,17 @@ Chatworkと連携するためには、3つの環境変数の設定が必要で�
   - 絶対にバージョン管理の対象には含めないでください
 
 ```bash
-vagrant $ vi .env
+container $ vi .env
 export HUBOT_CHATWORK_TOKEN=xxxxxxxxxxxxxxxxxxxxxx
 export HUBOT_CHATWORK_ROOMS=xxxxxxxxxx
 export HUBOT_CHATWORK_API_RATE=420
-vagrant $ eval $(cat .env)
+container $ eval $(cat .env)
 ```
 
 chatworkアダプタを指定して、hubotを起動
 
 ```bash
-vagrant $ bin/hubot -a chatwork
+container $ bin/hubot -a chatwork
 ```
 
 指定したROOM IDの部屋で、hubot pingという呼び掛けに、PONGが返却されれば成功。
