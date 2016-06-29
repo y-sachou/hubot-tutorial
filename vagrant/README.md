@@ -69,7 +69,7 @@ hubotに向けて、pingのメッセージを送ると、PONGとレスポンス�
 Chatworkと連携するためには、3つの環境変数の設定が必要です。
 
 - HUBOT_CHATWORK_TOKEN : APIトークン
-- HUBOT_CHATWORK_ROOMS : 部屋番号
+- HUBOT_CHATWORK_ROOMS : ROOM ID
 - HUBOT_CHATWORK_API_RATE : 1時間あたりのデータ取得回数
   - 現在、5分100回までという制限あり
 
