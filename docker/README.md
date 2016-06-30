@@ -67,6 +67,8 @@ OS初期設定、Hubot関連ツールのインストールは、docker build時�
 
 ## コンテナ起動とログイン
 
+ローカル側のディレクトリパスは自分のMac環境に合わせて修正してください。
+
 ```bash
 mac $ docker run -v /Users/syasu/hubot-test/sample_scripts:/mnt/sample_scripts -d -i -t test/hubot:1.0 /bin/bash
 mac $ docker ps
